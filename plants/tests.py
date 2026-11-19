@@ -47,6 +47,15 @@ class PlantTests(TestCase):
         response = self.client.get(url, {"category": "flowers", "is_edible": "yes"})
         self.assertContains(response, "No plants match these filters")
 
+    def test_catalog_search_combines_with_both_filters(self):
+        filters = {"q": "fragrant", "category": "herbs", "is_edible": "yes"}
+        url = reverse("plants:catalog")
+        response = self.client.get(url, filters)
+        self.assertEqual(response.context["plants"], [self.basil])
+        self.assertContains(response, 'value="fragrant"')
+        response = self.client.get(url, {**filters, "category": "flowers"})
+        self.assertContains(response, "No plants match these filters")
+
     def test_search_matches_name_description_and_use(self):
         url = reverse("plants:search")
         for query in (" BASIL ", "FRAGRANT ANNUAL", "pesto"):
@@ -119,6 +128,8 @@ class SeedTests(TestCase):
                 self.assertEqual(photo.format, "WEBP")
                 photo.verify()
         first = plants[0]
+        first.name = "Renamed specimen"
+        first.save(update_fields=["name"])
         Path(first.image.path).unlink()
         call_command("seed_plants", stdout=StringIO())
         self.assertEqual(Plant.objects.count(), len(plants))

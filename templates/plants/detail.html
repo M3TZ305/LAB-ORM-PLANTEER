@@ -9,8 +9,12 @@
       <a class="eyebrow" href="{% url 'plants:catalog' %}?category={{ plant.category|urlencode }}">{{ plant.get_category_display }}</a>
       <h1>{{ plant.name }}</h1>
       <dl class="plant-facts">
-        <div><dt>Edible</dt><dd>{{ plant.is_edible|yesno:'Yes,No' }}</dd></div>
-        <div><dt>Added</dt><dd><time datetime="{{ plant.created_at|date:'c' }}">{{ plant.created_at|date:'M j, Y' }}</time></dd></div>
+        {% if plant.is_edible %}
+          <div class="edible-part"><dt>Edible part</dt><dd>{{ plant.edible_part|default:"Part not specified" }}</dd></div>
+        {% else %}
+          <div class="fact-line"><dt>Edible</dt><dd>No</dd></div>
+        {% endif %}
+        <div class="fact-line"><dt>Added</dt><dd><time datetime="{{ plant.created_at|date:'c' }}">{{ plant.created_at|date:'M j, Y' }}</time></dd></div>
       </dl>
       <h2>About</h2>{{ plant.about|linebreaks }}
       <h2>Used for</h2>{{ plant.used_for|linebreaks }}

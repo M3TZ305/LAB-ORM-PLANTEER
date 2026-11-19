@@ -25,8 +25,8 @@ class Command(BaseCommand):
             for entry in entries:
                 filename = f'{entry["slug"]}.webp'
                 media_name = f"plants/seed/{filename}"
-                plant = Plant.objects.filter(name=entry["name"]).first()
-                if plant and plant.image.name != media_name:
+                plant = Plant.objects.filter(image=media_name).first()
+                if plant is None and Plant.objects.filter(name=entry["name"]).exists():
                     continue
                 if not storage.exists(media_name):
                     with (folder / filename).open("rb") as source:

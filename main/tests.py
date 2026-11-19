@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
@@ -18,18 +17,11 @@ class ContactTests(TestCase):
         self.assertContains(response, "Your message was received.")
         self.assertEqual(Contact.objects.get().email, "dana@example.com")
 
-    def test_only_staff_can_read_the_inbox(self):
+    def test_visitors_can_read_messages_without_seeing_email(self):
         Contact.objects.create(first_name="Dana", last_name="Ali", email="dana@example.com",
                                message="<script>alert(1)</script>")
         url = reverse("main:inbox")
-        self.assertRedirects(self.client.get(url), reverse("admin:login") + "?next=" + url)
-        user = get_user_model().objects.create_user(username="reader")
-        self.client.force_login(user)
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 302)
-        self.assertNotContains(response, "dana@example.com", status_code=302)
-        user.is_staff = True
-        user.save(update_fields=["is_staff"])
-        response = self.client.get(url)
-        self.assertContains(response, "dana@example.com")
+        self.assertContains(response, "Dana Ali")
+        self.assertNotContains(response, "dana@example.com")
         self.assertContains(response, "&lt;script&gt;alert(1)&lt;/script&gt;")

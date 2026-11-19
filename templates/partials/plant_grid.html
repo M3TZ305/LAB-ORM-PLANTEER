@@ -4,12 +4,12 @@
       <a class="plant-card-link" href="{{ plant.get_absolute_url }}">
         <div class="plant-card-media">
           <img src="{{ plant.image.url }}" alt="{{ plant.name }}" loading="lazy" decoding="async" width="640" height="480">
-          <span class="tag">{{ plant.get_category_display }}</span>
         </div>
         <div class="plant-card-body">
+          <span class="card-category">{{ plant.get_category_display }}</span>
           <h3>{{ plant.name }}</h3>
           <span aria-hidden="true" class="card-arrow">↗</span>
-          <p>{{ plant.about|truncatewords:16 }}</p>
+          <p>{{ plant.card_summary }}</p>
         </div>
       </a>
     </article>

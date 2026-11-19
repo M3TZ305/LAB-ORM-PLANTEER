@@ -1,5 +1,4 @@
 from django.contrib import messages
-from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_safe, require_http_methods
 
@@ -11,7 +10,7 @@ from .models import Contact
 
 @require_safe
 def home(request):
-    names = ["Monstera", "English lavender", "Sweet basil"]
+    names = ["Common sunflower", "English lavender", "Sweet basil"]
     picks = {plant.name: plant for plant in Plant.objects.filter(name__in=names).order_by("-pk")}
     featured = [picks[name] for name in names if name in picks]
     if len(featured) < 3:
@@ -32,7 +31,6 @@ def contact(request):
     return render(request, "main/contact.html", {"form": form})
 
 
-@staff_member_required
 @require_safe
 def inbox(request):
     return render(request, "main/inbox.html", {"entries": Contact.objects.all()})

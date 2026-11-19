@@ -1,3 +1,6 @@
+import re
+
+from django.core.exceptions import ValidationError
 from django.core.validators import MaxLengthValidator
 from django.db import models
 from django.urls import reverse
@@ -17,6 +20,7 @@ class Plant(models.Model):
     image = models.ImageField(upload_to="plants/")
     category = models.CharField(max_length=24, choices=Category.choices, db_index=True)
     is_edible = models.BooleanField(default=False)
+    edible_part = models.CharField(max_length=160, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -24,6 +28,19 @@ class Plant(models.Model):
 
     def __str__(self):
         return self.name
+
+    def clean(self):
+        super().clean()
+        if self.edible_part and not self.is_edible:
+            raise ValidationError({"edible_part": "Select edible before specifying a part."})
+
+    @property
+    def card_summary(self):
+        """Use a complete opening sentence when it fits the card."""
+        sentence = re.split(r"(?<=[.!?])(?:\s+|$)", self.about.strip(), maxsplit=1)[0]
+        if sentence and len(sentence) <= 180:
+            return sentence
+        return f"Explore the uses and characteristics of {self.name}."
 
     def get_absolute_url(self):
         return reverse("plants:detail", kwargs={"plant_id": self.pk})

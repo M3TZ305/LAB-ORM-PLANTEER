@@ -7,11 +7,18 @@ from .forms import CommentForm, PlantForm
 from .models import Plant
 
 
+def matching_plants(query):
+    return Plant.objects.filter(
+        Q(name__icontains=query) | Q(about__icontains=query) | Q(used_for__icontains=query)
+    )
+
+
 @require_safe
 def catalog(request):
     category = request.GET.get("category", "")
     edible = request.GET.get("is_edible", "")
-    plants = Plant.objects.all()
+    query = request.GET.get("q", "").strip()
+    plants = matching_plants(query) if query else Plant.objects.all()
     if category in Plant.Category.values:
         plants = plants.filter(category=category)
     else:
@@ -22,16 +29,14 @@ def catalog(request):
         edible = ""
     return render(request, "plants/catalog.html", {
         "plants": list(plants), "categories": Plant.Category.choices,
-        "category": category, "edible": edible,
+        "category": category, "edible": edible, "query": query,
     })
 
 
 @require_safe
 def search(request):
     query = request.GET.get("q", "").strip()
-    plants = Plant.objects.filter(
-        Q(name__icontains=query) | Q(about__icontains=query) | Q(used_for__icontains=query)
-    ) if query else Plant.objects.none()
+    plants = matching_plants(query) if query else Plant.objects.none()
     return render(request, "plants/search.html", {"plants": list(plants), "query": query})
 
 

@@ -3,15 +3,15 @@
 {% block content %}
   <div class="shell">
     <section class="hero">
-      <img class="hero-photo" src="{% static 'img/hero.webp' %}" alt="" fetchpriority="high" width="1400" height="900">
+      <img class="hero-photo" src="{% static 'img/hero.webp' %}" alt="" fetchpriority="high" width="960" height="1280">
       <div class="hero-content">
         <p class="eyebrow">The botanical index</p>
-        <h1>A world<br> worth <em>growing.</em></h1>
+        <h1>Explore the<br><em>plant</em> catalog.</h1>
         <p class="hero-description">Discover plants by name, find out what they’re used for, and share what you’ve grown.</p>
         {% include 'partials/search.html' with search_id='home-search' %}
         <a class="hero-link" href="{% url 'plants:catalog' %}">Explore all plants <span aria-hidden="true">↗</span></a>
       </div>
-      <div class="hero-caption" aria-hidden="true"><span>Monstera deliciosa</span><span>Tropical foliage</span></div>
+      <div class="hero-caption" aria-hidden="true"><span>Epipremnum aureum</span><span>Golden pothos</span></div>
     </section>
     <nav class="collections" aria-label="Plant collections">
       <span class="collections-label">Browse by category</span>

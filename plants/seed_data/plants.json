@@ -5,7 +5,8 @@
     "category": "houseplants",
     "is_edible": true,
     "about": "Monstera deliciosa is a tropical climber with broad, glossy leaves that develop splits and holes as they mature.",
-    "used_for": "Grown indoors as a foliage plant. Only the fully ripe fruit is edible. Unripe fruit and other parts contain irritating calcium oxalate crystals."
+    "used_for": "Grown indoors as a foliage plant. Only the fully ripe fruit is edible. Unripe fruit and other parts contain irritating calcium oxalate crystals.",
+    "edible_part": "Fully ripe fruit only"
   },
   {
     "slug": "lavender",
@@ -13,7 +14,8 @@
     "category": "herbs",
     "is_edible": true,
     "about": "Lavandula angustifolia is an aromatic shrub with narrow silver-green leaves and spikes of purple flowers.",
-    "used_for": "Dried flowers are used in sachets. Culinary-grade buds can flavor shortbread, sugar, and syrups."
+    "used_for": "Dried flowers are used in sachets. Culinary-grade buds can flavor shortbread, sugar, and syrups.",
+    "edible_part": "Culinary-grade flower buds"
   },
   {
     "slug": "basil",
@@ -21,7 +23,8 @@
     "category": "herbs",
     "is_edible": true,
     "about": "Ocimum basilicum is a tender aromatic herb with soft green leaves and small summer flowers.",
-    "used_for": "The leaves are used fresh in pesto, tomato salads, and sauces."
+    "used_for": "The leaves are used fresh in pesto, tomato salads, and sauces.",
+    "edible_part": "Leaves"
   },
   {
     "slug": "mint",
@@ -29,7 +32,8 @@
     "category": "herbs",
     "is_edible": true,
     "about": "Mentha spicata is a spreading perennial with fragrant, pointed leaves and small pale flower spikes.",
-    "used_for": "Fresh leaves flavor tea, salads, and sauces."
+    "used_for": "Fresh leaves flavor tea, salads, and sauces.",
+    "edible_part": "Leaves"
   },
   {
     "slug": "rosemary",
@@ -37,7 +41,8 @@
     "category": "herbs",
     "is_edible": true,
     "about": "Salvia rosmarinus is an evergreen Mediterranean shrub with narrow, resin-scented leaves and pale blue flowers.",
-    "used_for": "The leaves season roasted vegetables, focaccia, and stews."
+    "used_for": "The leaves season roasted vegetables, focaccia, and stews.",
+    "edible_part": "Leaves"
   },
   {
     "slug": "thyme",
@@ -45,7 +50,8 @@
     "category": "herbs",
     "is_edible": true,
     "about": "Thymus vulgaris is a low evergreen shrub with tiny aromatic leaves and pink to lilac flowers.",
-    "used_for": "Fresh or dried leaves season soups, beans, and roasted vegetables."
+    "used_for": "Fresh or dried leaves season soups, beans, and roasted vegetables.",
+    "edible_part": "Leaves"
   },
   {
     "slug": "sunflower",
@@ -53,7 +59,8 @@
     "category": "flowers",
     "is_edible": true,
     "about": "Helianthus annuus is a tall annual with large flower heads made up of many small florets.",
-    "used_for": "Its mature seeds are eaten roasted or pressed for oil. The flower heads are also grown for cutting."
+    "used_for": "Its mature seeds are eaten roasted or pressed for oil. The flower heads are also grown for cutting.",
+    "edible_part": "Mature seeds"
   },
   {
     "slug": "orchid",
@@ -109,7 +116,8 @@
     "category": "flowers",
     "is_edible": true,
     "about": "Calendula officinalis is a short-lived garden plant with daisy-like heads in yellow and orange.",
-    "used_for": "Its petals can be used as a garnish or to add color to rice and salads."
+    "used_for": "Its petals can be used as a garnish or to add color to rice and salads.",
+    "edible_part": "Petals"
   },
   {
     "slug": "cosmos",
@@ -133,7 +141,8 @@
     "category": "fruit-trees",
     "is_edible": true,
     "about": "Citrus × limon is an evergreen citrus tree with fragrant white flowers and acidic yellow fruits.",
-    "used_for": "The juice and zest flavor dressings, drinks, and baked goods."
+    "used_for": "The juice and zest flavor dressings, drinks, and baked goods.",
+    "edible_part": "Fruit juice and zest"
   },
   {
     "slug": "pomegranate",
@@ -141,6 +150,7 @@
     "category": "fruit-trees",
     "is_edible": true,
     "about": "Punica granatum is a deciduous shrub or small tree with bright flowers and round, leathery fruits.",
-    "used_for": "The juicy arils are eaten fresh or used in salads, juice, and pomegranate molasses."
+    "used_for": "The juicy arils are eaten fresh or used in salads, juice, and pomegranate molasses.",
+    "edible_part": "Arils"
   }
 ]
