@@ -1,0 +1,59 @@
+{% load static %}
+<!doctype html>
+<html lang="en" data-theme="{% if request.COOKIES.planteer_theme == 'dark' %}dark{% else %}light{% endif %}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Planteer is a field guide to houseplants, herbs, flowers, and more.">
+  <meta name="color-scheme" content="light dark">
+  <title>{% block title %}Planteer | The botanical index{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/site.css' %}">
+  <script src="{% static 'js/theme.js' %}" defer></script>
+</head>
+<body id="top">
+  <a class="skip" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="{% url 'main:home' %}"><span class="brand-mark" aria-hidden="true"></span>Planteer<span class="brand-dot">.</span></a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="{% url 'main:home' %}"{% if request.resolver_match.view_name == 'main:home' %} aria-current="page"{% endif %}>Home</a>
+        <a href="{% url 'plants:catalog' %}"{% if request.resolver_match.view_name == 'plants:catalog' %} aria-current="page"{% endif %}>All Plants</a>
+        <a href="{% url 'main:contact' %}"{% if request.resolver_match.view_name == 'main:contact' %} aria-current="page"{% endif %}>Contact Us</a>
+      </nav>
+      <div class="header-actions">
+        <button class="theme-button" type="button" aria-label="Dark theme" aria-pressed="false" hidden>
+          <span class="theme-icon" aria-hidden="true"></span>
+        </button>
+        <a href="{% url 'plants:create' %}" class="button button-small"><span aria-hidden="true">+</span> Add Plant</a>
+      </div>
+    </div>
+  </header>
+  <main id="main-content" tabindex="-1">
+    {% if messages %}
+      <div class="shell notices" role="status">
+        {% for message in messages %}<p class="notice">{{ message }}</p>{% endfor %}
+      </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="site-footer">
+    <div class="shell">
+      <div class="footer-inner">
+        <div>
+          <a class="brand" href="{% url 'main:home' %}"><span class="brand-mark" aria-hidden="true"></span>Planteer<span class="brand-dot">.</span></a>
+          <p>A field guide for the plant-curious.</p>
+        </div>
+        <nav aria-label="Footer navigation">
+          <a href="{% url 'plants:catalog' %}">All Plants</a>
+          <a href="{% url 'plants:create' %}">Add Plant</a>
+          <a href="{% url 'main:contact' %}">Contact Us</a>
+          {% if user.is_staff %}<a href="{% url 'main:inbox' %}">Messages</a>{% endif %}
+        </nav>
+      </div>
+      <div class="footer-bottom"><a href="{% static 'img/credits.txt' %}">Photography credits</a><a href="#top">Back to top <span aria-hidden="true">↑</span></a></div>
+    </div>
+  </footer>
+</body>
+</html>
+
+
