@@ -25,7 +25,7 @@
   {% elif query or category or edible %}
     <div class="empty"><h3>No plants match these filters</h3><p>Try a different search term or clear your filters.</p><a class="button" href="{% url 'plants:catalog' %}">Show all plants</a></div>
   {% else %}
-    <div class="empty"><h3>The catalog is empty</h3><a class="button" href="{% url 'plants:create' %}">Add a plant</a></div>
+    <div class="empty"><h3>The catalog is empty</h3><a class="button add-plant" href="{% url 'plants:create' %}">Add a plant</a></div>
   {% endif %}
 </div>
 {% endblock %}

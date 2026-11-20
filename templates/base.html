@@ -7,7 +7,8 @@
   <meta name="description" content="Planteer is a field guide to houseplants, herbs, flowers, and more.">
   <meta name="color-scheme" content="light dark">
   <title>{% block title %}Planteer | The botanical index{% endblock %}</title>
-  <link rel="stylesheet" href="{% static 'css/site.css' %}">
+  <link rel="icon" type="image/svg+xml" href="{% static 'brand-signal.svg' %}">
+  <link rel="stylesheet" href="{% static 'css/site.css' %}?v=plant-guide-2">
   <script src="{% static 'js/theme.js' %}" defer></script>
   <script src="{% static 'js/footer.js' %}" defer></script>
 </head>
@@ -15,7 +16,7 @@
   <a class="skip" href="#main-content">Skip to content</a>
   <header class="site-header">
     <div class="shell header-inner">
-      <a class="brand" href="{% url 'main:home' %}"><span class="brand-mark" aria-hidden="true"></span>Planteer<span class="brand-dot">.</span></a>
+      {% include 'partials/brand.html' %}
       <nav class="nav-links" aria-label="Main navigation">
         <a href="{% url 'main:home' %}"{% if request.resolver_match.view_name == 'main:home' %} aria-current="page"{% endif %}>Home</a>
         <a href="{% url 'plants:catalog' %}"{% if request.resolver_match.view_name == 'plants:catalog' %} aria-current="page"{% elif request.resolver_match.view_name == 'plants:detail' or request.resolver_match.view_name == 'plants:search' %} aria-current="location"{% endif %}>All Plants</a>
@@ -28,7 +29,7 @@
             <path class="theme-sun" d="M4 0h2v1h-2z M1 1h1v1h-1z M8 1h1v1h-1z M2 2h1v1h-1z M7 2h1v1h-1z M3 3h4v1h-4z M0 4h1v1h-1z M3 4h4v1h-4z M9 4h1v1h-1z M0 5h1v1h-1z M3 5h4v1h-4z M9 5h1v1h-1z M3 6h4v1h-4z M2 7h1v1h-1z M7 7h1v1h-1z M1 8h1v1h-1z M8 8h1v1h-1z M4 9h2v1h-2z"/>
           </svg>
         </button>
-        <a href="{% url 'plants:create' %}" class="button button-small"><span aria-hidden="true">+</span> Add Plant</a>
+        <a href="{% url 'plants:create' %}" class="button button-small add-plant">Add Plant</a>
       </div>
     </div>
   </header>
@@ -44,14 +45,13 @@
     <div class="shell">
       <div class="footer-inner">
         <div>
-          <a class="brand" href="{% url 'main:home' %}"><span class="brand-mark" aria-hidden="true"></span>Planteer<span class="brand-dot">.</span></a>
+          {% include 'partials/brand.html' %}
           <p>A guide to plants and their uses.</p>
         </div>
-        <nav aria-labelledby="footer-explore">
-          <strong id="footer-explore">Explore</strong>
+        <nav aria-label="Footer navigation">
           <a href="{% url 'plants:catalog' %}">Browse plants</a>
           <a href="{% url 'plants:create' %}">Add a plant</a>
-          <a href="{% url 'main:inbox' %}">Read messages</a>
+          <a href="{% url 'main:inbox' %}">Messages</a>
         </nav>
       </div>
       <div class="footer-bottom" hidden><a href="#top">Back to top <span aria-hidden="true">↑</span></a></div>

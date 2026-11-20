@@ -3,19 +3,19 @@
 {% block content %}
   <div class="shell">
     <section class="hero">
-      <img class="hero-photo" src="{% static 'img/hero.webp' %}" alt="" fetchpriority="high" width="960" height="1280">
+      <video class="hero-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+        <source src="{% static 'video/hero.mp4' %}" type="video/mp4">
+      </video>
       <div class="hero-content">
-        <p class="eyebrow">The botanical index</p>
-        <h1>Explore the<br><em>plant</em> catalog.</h1>
-        <p class="hero-description">Discover plants by name, find out what they’re used for, and share what you’ve grown.</p>
-        {% include 'partials/search.html' with search_id='home-search' %}
+        <h1>The <em>plant</em> guide</h1>
+        <p class="hero-description">Discover plants by name, category, or use.</p>
+        {% include 'partials/search.html' with search_id='home-search' search_hint='Search by plant name or use…' %}
         <a class="hero-link" href="{% url 'plants:catalog' %}">Explore all plants <span aria-hidden="true">↗</span></a>
       </div>
-      <div class="hero-caption" aria-hidden="true"><span>Epipremnum aureum</span><span>Golden pothos</span></div>
     </section>
     <nav class="collections" aria-label="Plant collections">
       <span class="collections-label">Browse by category</span>
-      {% for value, label in categories %}<a href="{% url 'plants:catalog' %}?category={{ value|urlencode }}">{{ label }} <span aria-hidden="true">↗</span></a>{% endfor %}
+      {% for value, label in categories %}<a href="{% url 'plants:catalog' %}?category={{ value|urlencode }}">{{ label }}</a>{% endfor %}
     </nav>
     <section class="featured section-space">
       <div class="section-header">
@@ -25,7 +25,7 @@
       {% if featured %}
         {% include 'partials/plant_grid.html' with plants=featured %}
       {% else %}
-        <div class="empty"><h3>The collection is ready to grow</h3><a class="button" href="{% url 'plants:create' %}">Add the first plant</a></div>
+        <div class="empty"><h3>The collection is ready to grow</h3><a class="button add-plant" href="{% url 'plants:create' %}">Add the first plant</a></div>
       {% endif %}
     </section>
   </div>
