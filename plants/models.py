@@ -1,9 +1,17 @@
 import re
+from pathlib import Path
+
+from django.templatetags.static import static
 
 from django.core.exceptions import ValidationError
-from django.core.validators import MaxLengthValidator
+from django.core.validators import FileExtensionValidator, MaxLengthValidator
 from django.db import models
 from django.urls import reverse
+
+
+def attachment_path(instance, filename):
+    directory = "pdf" if Path(filename).suffix.lower() == ".pdf" else "fiels"
+    return f"{directory}/{Path(filename).name}"
 
 
 class Plant(models.Model):
@@ -17,7 +25,12 @@ class Plant(models.Model):
     name = models.CharField(max_length=120)
     about = models.TextField(validators=[MaxLengthValidator(3000)])
     used_for = models.TextField(validators=[MaxLengthValidator(2000)])
-    image = models.ImageField(upload_to="plants/")
+    image = models.ImageField(upload_to="img/", blank=True)
+    static_image = models.CharField(max_length=150, blank=True, editable=False)
+    attachment = models.FileField(
+        upload_to=attachment_path, blank=True,
+        validators=[FileExtensionValidator(["pdf", "txt", "csv", "docx", "xlsx"])],
+    )
     category = models.CharField(max_length=24, choices=Category.choices, db_index=True)
     is_edible = models.BooleanField(default=False)
     edible_part = models.CharField(max_length=160, blank=True)
@@ -33,6 +46,10 @@ class Plant(models.Model):
         super().clean()
         if self.edible_part and not self.is_edible:
             raise ValidationError({"edible_part": "Select edible before specifying a part."})
+
+    @property
+    def image_url(self):
+        return self.image.url if self.image else static(self.static_image)
 
     @property
     def card_summary(self):

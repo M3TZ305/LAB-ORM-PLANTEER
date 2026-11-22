@@ -3,7 +3,7 @@
     <article class="plant-card">
       <a class="plant-card-link" href="{{ plant.get_absolute_url }}">
         <div class="plant-card-media">
-          <img src="{{ plant.image.url }}" alt="{{ plant.name }}" loading="lazy" decoding="async" width="640" height="480">
+          <img src="{{ plant.image_url }}" alt="{{ plant.name }}" loading="lazy" decoding="async" width="640" height="480">
         </div>
         <div class="plant-card-body">
           <span class="card-category">{{ plant.get_category_display }}</span>

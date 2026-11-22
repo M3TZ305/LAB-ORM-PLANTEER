@@ -7,7 +7,7 @@ A Django and SQLite botanical catalog for the [LAB-ORM-PLANTEER assignment](http
 Use Python 3.12 or later. From the project folder in PowerShell, run:
 
 ```powershell
-py -3.12 -m venv .venv
+py -3 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 .\.venv\Scripts\python.exe manage.py migrate
 .\.venv\Scripts\python.exe manage.py seed_plants
@@ -23,8 +23,8 @@ Visit `/contact/messages/` to read submitted messages.
 - `main` contains the home page, contact form, and public messages page.
 - `plants` contains the catalog, combined filters, ORM search, plant CRUD, and visitor comments.
 - `templates` and `static` contain the shared layout, page templates, styles, and theme preference. Django serves uploaded images from `media` in local development.
-- `plants/seed_data` contains sample records and offline WebP photographs.
-- `assets` contains the original [main wireframes](assets/main-wireframe.png), [contact wireframes](assets/contact-wireframe.png), and [UML](assets/uml.png).
+- `plants/seed_data` contains the sample records. Their photographs live in `static/img`. User uploads go to `media/img` (plant photos), `media/pdf` (PDF attachments), or `media/fiels` (other supported attachments).
+- The original assignment includes the [main wireframes](https://github.com/M3TZ305/LAB-ORM-PLANTEER/blob/12dbb734dc5daa62f73eb721b0dc057b03d24031/assets/main-wireframe.png), [contact wireframes](https://github.com/M3TZ305/LAB-ORM-PLANTEER/blob/12dbb734dc5daa62f73eb721b0dc057b03d24031/assets/contact-wireframe.png), and [UML](https://github.com/M3TZ305/LAB-ORM-PLANTEER/blob/12dbb734dc5daa62f73eb721b0dc057b03d24031/assets/uml.png).
 
 The local settings enable Django's development server. For a provisioned environment, set `DJANGO_DEBUG=0`, `DJANGO_SECRET_KEY`, and `DJANGO_ALLOWED_HOSTS`, and configure your server to serve collected static files and uploaded media.
 

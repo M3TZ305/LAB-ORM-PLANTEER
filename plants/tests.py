@@ -2,6 +2,7 @@ from io import BytesIO, StringIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+from django.contrib.staticfiles import finders
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management import call_command
 from django.test import Client, TestCase
@@ -89,6 +90,7 @@ class PlantTests(TestCase):
         plant = Plant.objects.get(name="Sage")
         self.assertRedirects(result, plant.get_absolute_url())
         self.assertTrue(Path(plant.image.path).is_file())
+        self.assertTrue(plant.image.name.startswith("img/"))
         unchanged_image = plant.image.name
 
         update = reverse("plants:update", args=[plant.pk])
@@ -110,6 +112,20 @@ class PlantTests(TestCase):
         self.assertEqual(self.client.get(update).status_code, 404)
         self.assertEqual(self.client.post(delete).status_code, 404)
 
+    def test_seed_photo_edit_and_attachment_routing(self):
+        call_command("seed_plants", stdout=StringIO())
+        plant = Plant.objects.exclude(static_image="").first()
+        url = reverse("plants:update", args=[plant.pk])
+        data = {"name": plant.name, "category": plant.category,
+                "about": plant.about, "used_for": plant.used_for}
+        for filename, directory in [("notes.PDF", "pdf"), ("notes.txt", "fiels")]:
+            response = self.client.post(url, {**data, "attachment": SimpleUploadedFile(filename, b"notes")})
+            self.assertRedirects(response, plant.get_absolute_url())
+            plant.refresh_from_db()
+            self.assertTrue(plant.attachment.name.startswith(directory + "/"))
+            self.assertTrue(Path(plant.attachment.path).is_file())
+            self.assertContains(self.client.get(plant.get_absolute_url()), plant.image_url)
+
     def test_delete_requires_csrf(self):
         url = reverse("plants:delete", args=[self.basil.pk])
         self.assertEqual(Client(enforce_csrf_checks=True).post(url).status_code, 403)
@@ -117,20 +133,20 @@ class PlantTests(TestCase):
 
 
 class SeedTests(TestCase):
-    def test_seed_copies_valid_photographs_and_is_idempotent(self):
+    def test_seed_uses_static_photographs_and_is_idempotent(self):
         media = self.enterContext(TemporaryDirectory())
         self.enterContext(self.settings(MEDIA_ROOT=media))
         call_command("seed_plants", stdout=StringIO())
         plants = list(Plant.objects.all())
         self.assertGreaterEqual(len(plants), 15)
         for plant in plants:
-            with Image.open(plant.image.path) as photo:
+            with Image.open(finders.find(plant.static_image)) as photo:
                 self.assertEqual(photo.format, "WEBP")
                 photo.verify()
         first = plants[0]
         first.name = "Renamed specimen"
         first.save(update_fields=["name"])
-        Path(first.image.path).unlink()
+        self.assertFalse(any(Path(media).iterdir()))
         call_command("seed_plants", stdout=StringIO())
         self.assertEqual(Plant.objects.count(), len(plants))
-        self.assertTrue(Path(first.image.path).is_file())
+        self.assertTrue(Path(finders.find(first.static_image)).is_file())
